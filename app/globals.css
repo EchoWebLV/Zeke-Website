@@ -417,3 +417,88 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   z-index: 9997;
 }
+
+/* Screen card effect for live feed */
+.screen-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(42, 42, 30, 0.9) 0%, rgba(26, 26, 20, 0.95) 100%);
+  border: 2px solid rgba(108, 106, 57, 0.5);
+  border-radius: 12px;
+}
+
+.screen-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(175, 170, 113, 0.03) 2px,
+    rgba(175, 170, 113, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.screen-card::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(175, 170, 113, 0.08) 50%,
+    transparent 100%
+  );
+  animation: screenScan 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes screenScan {
+  0% { top: -50%; }
+  100% { top: 150%; }
+}
+
+.screen-card:hover {
+  border-color: rgba(175, 170, 113, 0.7);
+  box-shadow: 
+    0 0 20px rgba(175, 170, 113, 0.2),
+    inset 0 0 30px rgba(175, 170, 113, 0.05);
+}
+
+.screen-card:hover::after {
+  animation-duration: 2s;
+}
+
+/* Screen flicker effect */
+.screen-flicker {
+  animation: screenFlicker 8s ease-in-out infinite;
+}
+
+@keyframes screenFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+/* Screen glow pulse */
+.screen-glow {
+  box-shadow: 
+    0 0 15px rgba(175, 170, 113, 0.15),
+    inset 0 0 20px rgba(0, 0, 0, 0.3);
+  animation: screenGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes screenGlow {
+  0% { box-shadow: 0 0 15px rgba(175, 170, 113, 0.15), inset 0 0 20px rgba(0, 0, 0, 0.3); }
+  100% { box-shadow: 0 0 25px rgba(175, 170, 113, 0.25), inset 0 0 30px rgba(0, 0, 0, 0.2); }
+}

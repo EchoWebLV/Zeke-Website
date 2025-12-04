@@ -1,16 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
   Shield, Lock, Eye, EyeOff, Copy, Check, ExternalLink, 
   Zap, MessageSquare, Sparkles, TrendingUp, BookOpen, 
   Flame, Ban, ChevronDown, QrCode, AlertTriangle,
-  Radio, Cpu, FileWarning, Fingerprint, ScanLine
+  Radio, Cpu, Fingerprint, ScanLine
 } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
 
 const ZCASH_ADDRESS = 'u12jzyt2h8g379nkw27xege2304wghlutjlj0x66umnq6g8zd6jp3x9shntyjshdfyam8m6c2zux3sje5ys0lhua4nv8wr5lm9053qjt48'
+
 
 // Animation variants
 const fadeInUp = {
@@ -43,6 +44,159 @@ const XIcon = ({ size = 24, className = '' }: { size?: number; className?: strin
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
   </svg>
 )
+
+// Tweet types
+interface Tweet {
+  id: string
+  text: string
+  created_at: string
+  public_metrics?: {
+    like_count: number
+    retweet_count: number
+    reply_count: number
+  }
+}
+
+interface TwitterUser {
+  id: string
+  name: string
+  username: string
+  profile_image_url: string
+}
+
+// Tweets Component
+function TweetsSection() {
+  const [tweets, setTweets] = useState<Tweet[]>([])
+  const [user, setUser] = useState<TwitterUser | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchTweets() {
+      try {
+        const response = await fetch('/api/tweets')
+        if (!response.ok) {
+          throw new Error('Failed to fetch tweets')
+        }
+        const data = await response.json()
+        setTweets(data.tweets || [])
+        setUser(data.user || null)
+      } catch (err) {
+        setError('Could not load tweets')
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchTweets()
+  }, [])
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
+  const formatNumber = (num: number) => {
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K'
+    return num.toString()
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-vault-light/50">
+        <div className="w-8 h-8 border-2 border-vault-primary border-t-transparent rounded-full animate-spin mb-4" />
+        <span className="font-display text-sm tracking-wider">LOADING TRANSMISSIONS...</span>
+      </div>
+    )
+  }
+
+  if (error || tweets.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <p className="text-vault-light/50 mb-4 font-display text-sm">Unable to load tweets</p>
+        <a 
+          href="https://x.com/ZekePrivacy" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="btn-terminal inline-flex items-center gap-3"
+        >
+          <span>VIEW ON X</span>
+          <ExternalLink size={16} />
+        </a>
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      {tweets.map((tweet, index) => (
+        <a
+          key={tweet.id}
+          href={`https://x.com/ZekePrivacy/status/${tweet.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="screen-card screen-flicker screen-glow group block p-6 hover:scale-[1.02] transition-transform"
+          style={{ animationDelay: `${index * 0.5}s` }}
+        >
+          {/* Header */}
+          <div className="flex items-center gap-3 mb-3">
+            {user?.profile_image_url && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img 
+                src={user.profile_image_url} 
+                alt={user.name}
+                className="w-10 h-10 rounded-full"
+              />
+            )}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="font-display font-semibold text-vault-cream text-sm truncate">
+                  {user?.name || 'Zeke'}
+                </span>
+                <span className="text-vault-light/50 text-xs">
+                  @{user?.username || 'ZekePrivacy'}
+                </span>
+              </div>
+              <span className="text-vault-light/40 text-xs">
+                {formatDate(tweet.created_at)}
+              </span>
+            </div>
+            <XIcon size={16} className="text-vault-light/30 group-hover:text-vault-primary transition-colors" />
+          </div>
+
+          {/* Tweet text */}
+          <p className="text-vault-cream text-sm leading-relaxed line-clamp-4">
+            {tweet.text}
+          </p>
+
+          {/* Metrics */}
+          {tweet.public_metrics && (
+            <div className="flex items-center gap-4 mt-3 pt-3 border-t border-vault-secondary/30 text-vault-light/40 text-xs">
+              <span className="flex items-center gap-1">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                {formatNumber(tweet.public_metrics.like_count)}
+              </span>
+              <span className="flex items-center gap-1">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                {formatNumber(tweet.public_metrics.reply_count)}
+              </span>
+              <span className="flex items-center gap-1">
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                {formatNumber(tweet.public_metrics.retweet_count)}
+              </span>
+            </div>
+          )}
+        </a>
+      ))}
+    </div>
+  )
+}
 
 export default function Home() {
   const [copied, setCopied] = useState(false)
@@ -317,6 +471,49 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* Recent Tweets Section */}
+      <section className="py-20 px-6 relative">
+        <div className="vault-divider mb-20" />
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="text-center mb-12"
+          >
+            <motion.span 
+              variants={fadeInUp}
+              className="secure-badge mb-6 inline-flex"
+            >
+              <Radio size={16} />
+              LIVE FEED
+            </motion.span>
+            <motion.h2 
+              variants={fadeInUp}
+              className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-vault-cream mb-6 tracking-wide"
+            >
+              RECENT <span className="text-vault-primary">TRANSMISSIONS</span>
+            </motion.h2>
+            <motion.p 
+              variants={fadeInUp}
+              className="text-vault-light/70 text-lg max-w-2xl mx-auto"
+            >
+              Latest broadcasts from Zeke. Privacy insights, ZK analysis, and more.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <TweetsSection />
+          </motion.div>
+        </div>
+      </section>
+
       {/* Gallery Section */}
       <section className="py-20 px-6 relative">
         <div className="vault-divider mb-20" />
@@ -339,7 +536,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-vault-cream mb-6 tracking-wide"
             >
-              RECENT <span className="text-vault-primary">BROADCASTS</span>
+              GENERATED <span className="text-vault-primary">ARTWORK</span>
             </motion.h2>
             <motion.p 
               variants={fadeInUp}
