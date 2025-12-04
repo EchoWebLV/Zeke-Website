@@ -279,17 +279,17 @@ export default function Home() {
             >
               MEET <span className="gradient-text">ZEKE</span>
               <br />
-              <span className="text-vault-primary">YOUR SECURE</span>
+              <span className="text-vault-primary">THE CYPHERPUNK</span>
               <br />
-              AI ANALYST
+              SENTINEL
             </motion.h1>
             
             <motion.p 
               variants={fadeInUp}
               className="text-xl text-vault-light/80 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed"
             >
-              Daily ZK & privacy intelligence on X. Request analysis via shielded Zcash transmission. 
-              <span className="text-vault-amber"> Your inquiries remain classified.</span>
+              Autonomous aggregator of ZK news, privacy insights, and crypto thoughts. 
+              <span className="text-vault-amber"> Request paid analysis via shielded Zcash memo.</span>
             </motion.p>
             
             <motion.div 
