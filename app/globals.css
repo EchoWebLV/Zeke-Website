@@ -1,0 +1,419 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Orbitron', monospace;
+  --font-body: 'Rajdhani', system-ui, sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+  
+  --vault-primary: #afaa71;
+  --vault-secondary: #6c6a39;
+  --vault-dark: #4a4825;
+  --vault-light: #c9c48f;
+  --vault-bg: #1a1a14;
+  --vault-amber: #f0a830;
+  --terminal-green: #5a8a5a;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--vault-bg);
+  color: var(--vault-light);
+  overflow-x: hidden;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* CRT Scanline overlay */
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+  z-index: 9999;
+}
+
+/* Vignette effect */
+.vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0,0,0,0.4) 100%);
+  z-index: 9998;
+}
+
+/* Custom scrollbar - Fallout style */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a14;
+  border-left: 1px solid #6c6a39;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #afaa71 0%, #6c6a39 100%);
+  border: 2px solid #1a1a14;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #c9c48f 0%, #afaa71 100%);
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(175, 170, 113, 0.4);
+  color: #f0a830;
+}
+
+/* Vault-Tec gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #c9c48f 0%, #f0a830 50%, #afaa71 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Terminal text */
+.terminal-text {
+  color: var(--terminal-green);
+  text-shadow: 0 0 10px rgba(90, 138, 90, 0.5);
+  font-family: var(--font-mono);
+}
+
+/* Pip-Boy style panel */
+.pip-panel {
+  background: linear-gradient(135deg, rgba(42, 42, 30, 0.95) 0%, rgba(26, 26, 20, 0.98) 100%);
+  border: 2px solid var(--vault-secondary);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pip-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--vault-primary), transparent);
+}
+
+/* Vault door style panel */
+.vault-panel {
+  background: 
+    linear-gradient(135deg, rgba(42, 42, 30, 0.9) 0%, rgba(26, 26, 20, 0.95) 100%);
+  border: 3px solid var(--vault-secondary);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 30px rgba(175, 170, 113, 0.1),
+    inset 0 0 60px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(175, 170, 113, 0.2);
+  position: relative;
+}
+
+.vault-panel::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(175, 170, 113, 0.1);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+/* Hazard stripes */
+.hazard-stripe {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--vault-secondary),
+    var(--vault-secondary) 10px,
+    var(--vault-dark) 10px,
+    var(--vault-dark) 20px
+  );
+}
+
+/* Security stamp effect */
+.security-stamp {
+  position: relative;
+}
+
+.security-stamp::after {
+  content: 'CLASSIFIED';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 900;
+  color: rgba(139, 37, 0, 0.08);
+  letter-spacing: 0.3em;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Button styles - Vault-Tec */
+.btn-vault {
+  @apply font-display font-semibold px-6 py-3 rounded-lg uppercase tracking-wider text-sm
+         transition-all duration-300 relative overflow-hidden;
+  background: linear-gradient(135deg, #6c6a39 0%, #4a4825 100%);
+  border: 2px solid #afaa71;
+  color: #c9c48f;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  box-shadow: 
+    0 4px 15px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(175, 170, 113, 0.3),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-vault:hover {
+  background: linear-gradient(135deg, #afaa71 0%, #6c6a39 100%);
+  color: #1a1a14;
+  box-shadow: 
+    0 0 20px rgba(175, 170, 113, 0.4),
+    0 4px 15px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-vault:active {
+  transform: translateY(0);
+}
+
+.btn-amber {
+  @apply font-display font-semibold px-6 py-3 rounded-lg uppercase tracking-wider text-sm
+         transition-all duration-300 relative overflow-hidden;
+  background: linear-gradient(135deg, #f0a830 0%, #c88a20 100%);
+  border: 2px solid #f0a830;
+  color: #1a1a14;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+  box-shadow: 
+    0 0 20px rgba(240, 168, 48, 0.3),
+    0 4px 15px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-amber:hover {
+  background: linear-gradient(135deg, #ffbe4d 0%, #f0a830 100%);
+  box-shadow: 
+    0 0 30px rgba(240, 168, 48, 0.5),
+    0 4px 15px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+}
+
+/* Terminal button */
+.btn-terminal {
+  @apply font-mono px-6 py-3 rounded transition-all duration-300;
+  background: transparent;
+  border: 1px solid var(--terminal-green);
+  color: var(--terminal-green);
+  text-shadow: 0 0 10px rgba(90, 138, 90, 0.5);
+}
+
+.btn-terminal:hover {
+  background: rgba(90, 138, 90, 0.1);
+  box-shadow: 0 0 20px rgba(90, 138, 90, 0.3), inset 0 0 20px rgba(90, 138, 90, 0.1);
+}
+
+/* Card styles */
+.card-vault {
+  @apply rounded-xl p-6 transition-all duration-300;
+  background: linear-gradient(135deg, rgba(42, 42, 30, 0.8) 0%, rgba(26, 26, 20, 0.9) 100%);
+  border: 2px solid rgba(108, 106, 57, 0.5);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.card-vault:hover {
+  border-color: rgba(175, 170, 113, 0.6);
+  box-shadow: 
+    0 0 30px rgba(175, 170, 113, 0.15),
+    inset 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Step number - Vault style */
+.step-vault {
+  @apply w-14 h-14 rounded-full flex items-center justify-center font-display font-bold text-xl;
+  background: linear-gradient(135deg, #6c6a39 0%, #4a4825 100%);
+  border: 3px solid #afaa71;
+  color: #c9c48f;
+  box-shadow: 
+    0 0 20px rgba(175, 170, 113, 0.3),
+    inset 0 2px 0 rgba(175, 170, 113, 0.3);
+}
+
+/* Address box - Terminal style */
+.address-terminal {
+  @apply rounded-lg p-4 font-mono text-sm break-all relative overflow-hidden;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--terminal-green);
+  color: var(--terminal-green);
+  text-shadow: 0 0 5px rgba(90, 138, 90, 0.5);
+}
+
+.address-terminal::before {
+  content: '>';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: terminal-blink 1s step-end infinite;
+}
+
+/* Topic tags */
+.tag-accepted {
+  @apply px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200;
+  background: rgba(108, 106, 57, 0.3);
+  border: 1px solid #6c6a39;
+  color: #afaa71;
+}
+
+.tag-accepted:hover {
+  background: rgba(108, 106, 57, 0.5);
+  box-shadow: 0 0 15px rgba(175, 170, 113, 0.2);
+}
+
+.tag-rejected {
+  @apply px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200;
+  background: rgba(139, 37, 0, 0.2);
+  border: 1px solid #8b2500;
+  color: #ff6b4a;
+}
+
+.tag-rejected:hover {
+  background: rgba(139, 37, 0, 0.3);
+}
+
+/* Floating animation */
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Radiation glow */
+.radiation-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+/* Section divider - Vault style */
+.vault-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #6c6a39, #afaa71, #6c6a39, transparent);
+  position: relative;
+}
+
+.vault-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: #afaa71;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(175, 170, 113, 0.5);
+}
+
+/* Pip-Boy screen effect */
+.pip-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+.pip-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(90, 138, 90, 0.03) 50%,
+    transparent 100%
+  );
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+}
+
+/* Secure badge */
+.secure-badge {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider;
+  background: linear-gradient(135deg, rgba(108, 106, 57, 0.4) 0%, rgba(74, 72, 37, 0.4) 100%);
+  border: 1px solid #6c6a39;
+  color: #afaa71;
+}
+
+/* Warning stripe header */
+.warning-header {
+  position: relative;
+  padding-top: 8px;
+}
+
+.warning-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f0a830,
+    #f0a830 20px,
+    #1a1a14 20px,
+    #1a1a14 40px
+  );
+}
+
+/* Retro computer frame */
+.retro-frame {
+  border: 4px solid #6c6a39;
+  border-radius: 16px;
+  padding: 4px;
+  background: linear-gradient(135deg, #4a4825 0%, #2a2a1e 100%);
+  box-shadow: 
+    inset 0 2px 4px rgba(0,0,0,0.5),
+    0 0 30px rgba(175, 170, 113, 0.1);
+}
+
+.retro-frame-inner {
+  border: 2px solid #4a4825;
+  border-radius: 12px;
+  background: #1a1a14;
+  overflow: hidden;
+}
+
+@keyframes terminal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 9997;
+}

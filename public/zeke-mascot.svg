@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <!-- Background Circle -->
+  <circle cx="200" cy="200" r="190" fill="#6c6a39"/>
+  <circle cx="200" cy="200" r="175" fill="#afaa71"/>
+  
+  <!-- Inner background shape -->
+  <ellipse cx="200" cy="220" rx="140" ry="150" fill="#c9c48f"/>
+  
+  <!-- Body/Jacket -->
+  <path d="M120 280 L140 200 L180 220 L200 350 L220 220 L260 200 L280 280 L280 380 L120 380 Z" fill="#4a4825"/>
+  
+  <!-- T-shirt -->
+  <path d="M150 230 L170 210 L200 240 L230 210 L250 230 L250 350 L150 350 Z" fill="#2a2a1e"/>
+  
+  <!-- Z Logo on shirt -->
+  <text x="200" y="300" font-family="Arial Black, sans-serif" font-size="50" font-weight="bold" fill="#f0a830" text-anchor="middle">Z</text>
+  
+  <!-- Head -->
+  <ellipse cx="200" cy="150" rx="70" ry="80" fill="#d4d0a8"/>
+  
+  <!-- Hair -->
+  <ellipse cx="200" cy="95" rx="55" ry="35" fill="#4a4825"/>
+  <path d="M145 100 Q170 70 200 75 Q230 70 255 100" fill="#4a4825"/>
+  
+  <!-- Censored bar across eyes -->
+  <rect x="120" y="130" width="160" height="35" fill="#1a1a14" rx="3"/>
+  <rect x="125" y="135" width="150" height="25" fill="#0a0a08" rx="2"/>
+  <!-- Scribble lines on bar -->
+  <path d="M130 142 L270 142 M135 147 L265 147 M140 152 L260 152" stroke="#2a2a1e" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Smile -->
+  <path d="M165 180 Q200 210 235 180" stroke="#4a4825" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Teeth hint -->
+  <path d="M175 185 Q200 200 225 185" fill="#f5f5f0"/>
+  
+  <!-- Ears -->
+  <ellipse cx="130" cy="155" rx="12" ry="18" fill="#d4d0a8"/>
+  <ellipse cx="270" cy="155" rx="12" ry="18" fill="#d4d0a8"/>
+  
+  <!-- Thumbs up arm -->
+  <path d="M80 220 L100 250 L120 280 L140 260 L120 230 L100 210 Z" fill="#d4d0a8"/>
+  
+  <!-- Thumb -->
+  <ellipse cx="85" cy="200" rx="15" ry="30" fill="#d4d0a8" transform="rotate(-15 85 200)"/>
+  
+  <!-- Fist -->
+  <circle cx="95" cy="235" r="20" fill="#d4d0a8"/>
+  <ellipse cx="90" cy="250" rx="8" ry="12" fill="#c9c48f"/>
+  <ellipse cx="105" cy="250" rx="8" ry="12" fill="#c9c48f"/>
+  
+  <!-- Jacket collar -->
+  <path d="M155 220 L170 200 L185 215" stroke="#2a2a1e" stroke-width="4" fill="none"/>
+  <path d="M245 220 L230 200 L215 215" stroke="#2a2a1e" stroke-width="4" fill="none"/>
+</svg>
